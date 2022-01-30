@@ -2,6 +2,7 @@
 # Dream-Screen
 Infinite 2D background example for runners games. 
 <br>Xcode 13.2.1
-<br>iOS Depoyment Target 15.2 on iPhone 12
+<br>iOS Depoyment Target 15.2
 ## Screenshots
-![Screenshot](Screenshots/screenshot1.png?raw=true) ![Screenshot](Screenshots/screenshot1.png?raw=true)
+![Screenshot](Screenshots/screenshot1.png?raw=true?width="800) 
+![Screenshot](Screenshots/screenshot2.png?raw=true?width="800)
