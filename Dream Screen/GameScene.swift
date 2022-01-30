@@ -16,12 +16,12 @@ struct PhysicsCategory {
 class GameScene: SKScene {
     var car =  SKSpriteNode()
     var ground = SKSpriteNode()
-    let screenSize = UIScreen.main.bounds
+    
     
 //MARK: didMove
     override func didMove(to view: SKView) {
         UIApplication.shared.isIdleTimerDisabled = true
-//        let spawnGround = SKAction.run {self.createGround()}
+        
         let spawnMountains = SKAction.run {self.createMountains()}
         let spawnClouds = SKAction.run {self.createClouds()}
         let wait = SKAction.wait(forDuration: 1)
@@ -29,21 +29,14 @@ class GameScene: SKScene {
         let runForever = SKAction.repeatForever(startAll)
         run(runForever)
         
-//        let wait = SKAction.wait(forDuration: 10)
-//        let startGround = SKAction.sequence([wait,spawnGround])
-//        let runForever = SKAction.repeatForever(startGround)
-//        run(runForever)
         createGround()
         createCar()
         }
     
 //MARK: Ground
     func createGround(){
-        ground = SKSpriteNode(color: UIColor(red: 0, green: 0, blue: 0, alpha: 1), size: CGSize(width: screenSize.width * 2, height: 100))
-//        let texture = SKTexture(imageNamed: "ground")
-//        ground = SKSpriteNode(texture: texture)
-//        ground.size = CGSize(width: screenSize.width * 2, height: 100)
-        ground.position = CGPoint(x:0, y:ground.frame.height/2 - frame.height/2)
+        ground = SKSpriteNode(color: UIColor(red: 0, green: 1, blue: 0, alpha: 1), size: CGSize(width: self.frame.height, height: 100))
+        ground.position = CGPoint(x: 0, y: -1 * (self.frame.height / 2))
         ground.physicsBody = SKPhysicsBody(rectangleOf: ground.size)
         ground.physicsBody?.categoryBitMask = PhysicsCategory.ground
         ground.physicsBody?.collisionBitMask = PhysicsCategory.car
@@ -52,14 +45,9 @@ class GameScene: SKScene {
         ground.physicsBody?.allowsRotation = false
         ground.physicsBody?.isDynamic = false
         ground.name = "ground"
-//        let texture = SKTexture(imageNamed: "ground")
-//        let setTexture = SKAction.setTexture(texture, resize: true)
-//        let startMove = SKAction.moveTo(x: -1*(screenSize.width * 2), duration: 10)
-//        let afterMove = SKAction.removeFromParent()
-//        let moviment = SKAction.sequence([setTexture,startMove,afterMove])
         addChild(ground)
-//        ground.run(moviment)
     }
+    
 //MARK: Car
     func createCar(){
         car = SKSpriteNode(color: UIColor(red: 1, green: 0, blue: 0, alpha: 1), size: CGSize(width: 50, height: 30))
@@ -103,8 +91,8 @@ class GameScene: SKScene {
         let cloudNode = SKNode()
         let cloudSpriteNode = SKSpriteNode(imageNamed: selectCloud)
         cloudSpriteNode.size = CGSize(width: widhtClouds, height: heightClouds)
-        cloudSpriteNode.position = CGPoint(x:ground.frame.width, y:Double.random(in: 0 ... screenSize.width) * Double.random(in: -1.0 ... 1.00))
-        cloudSpriteNode.zPosition = CGFloat(-1 * widhtClouds)
+        cloudSpriteNode.position = CGPoint(x:ground.frame.width, y:Double.random(in: 0 ... (self.frame.height - (self.frame.height/4))) * Double.random(in: -1.0 ... 1.00))
+        cloudSpriteNode.zPosition = CGFloat(-1 * (widhtClouds*100))
         cloudNode.addChild(cloudSpriteNode)
 
         let startMove = SKAction.moveTo(x: -1*(ground.frame.width * 2), duration: widhtClouds / 20)
@@ -113,5 +101,11 @@ class GameScene: SKScene {
 
         addChild(cloudNode)
         cloudNode.run(moviment)
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(view!.frame.maxY)
+        let screenSize = UIScreen.main.bounds
+        print(screenSize)
+        print(self.frame.height)
     }
 }
